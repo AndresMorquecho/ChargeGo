@@ -5,10 +5,12 @@ import Estaciones from './pages/Estaciones.jsx'
 import Rentas from './pages/Rentas.jsx'
 import Usuarios from './pages/Usuarios.jsx'
 import Finanzas from './pages/Finanzas.jsx'
+import Login from './pages/Login.jsx'
 
 export default function App() {
   return (
     <Routes>
+      <Route path="/login" element={<Login />} />
       <Route element={<Layout />}> 
         <Route path="/" element={<Navigate to="/dashboard" replace />} />
         <Route path="/dashboard" element={<Dashboard />} />
