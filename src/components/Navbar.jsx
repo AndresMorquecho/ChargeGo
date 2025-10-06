@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 
-export default function Navbar() {
+export default function Navbar({ onMenuClick }) {
   const [open, setOpen] = useState(false)
   const [user, setUser] = useState(null)
   const ref = useRef(null)
@@ -22,12 +22,25 @@ export default function Navbar() {
   }
 
   return (
-    <header className="h-14 flex items-center justify-between px-4" style={{background:'#FFFFFF', borderBottom:'1px solid var(--border)'}}>
-      <div className="md:hidden font-semibold">ChargeGO</div>
+    <header className="h-14 flex items-center justify-between px-4 bg-white border-b border-[var(--border)]">
+      <div className="flex items-center gap-3">
+        {/* Botón menú hamburguesa para móvil */}
+        <button
+          onClick={onMenuClick}
+          className="md:hidden p-2 hover:bg-gray-100 rounded-md"
+        >
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+        <div className="md:hidden font-semibold text-lg">ChargeGO</div>
+      </div>
+      
       <div className="relative" ref={ref}>
         <button
           onClick={() => setOpen((o) => !o)}
-          className="flex items-center gap-2 px-3 py-1.5 rounded-md text-sm btn-primary"
+          className="flex items-center gap-2 px-3 py-1.5 rounded-md text-sm"
+          style={{background: 'var(--btn)', color: 'var(--btn-text)'}}
         >
           <span className="inline-flex items-center justify-center h-6 w-6 rounded-full bg-blue-600 text-white text-xs">
             {(user?.name || 'A')[0]}
