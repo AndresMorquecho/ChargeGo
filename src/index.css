@@ -1,6 +1,27 @@
 @import "tailwindcss";
 
 html, body, #root { height: 100%; }
-body { background-color: #f9fafb; color: #111827; }
+/* Paleta corporativa clara */
+:root {
+  --bg: #FFFFFF; /* Fondo principal blanco */
+  --card: #F8F8F8; /* Contenedores, tarjetas, modales */
+  --text: #000000; /* Texto principal negro */
+  --btn: #B7D516; /* Botón primario (verde) */
+  --btn-text: #000000; /* Texto dentro del botón */
+  --accent: #B7D516; /* Acentos e íconos activos */
+  --icon: #B7D516; /* Color de íconos principales */
+  --border: #E0E0E0; /* Bordes suaves grises */
+  --hover: #D3EB77; /* Hover del botón (verde más claro) */
+}
+
+body { background-color: var(--bg); color: var(--text); }
+
+/* Utilidades de tema claro */
+.card { background-color: var(--card); border: 1px solid var(--border); border-radius: 0.75rem; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+.btn-primary { background-color: var(--btn); color: var(--btn-text); border-radius: 0.5rem; transition: transform 120ms ease, box-shadow 120ms ease, background-color 120ms ease; }
+.btn-primary:hover { background-color: var(--hover); transform: translateY(-1px); box-shadow: 0 6px 16px rgba(0,0,0,0.06); }
+.input { background-color: #FFFFFF; border: 1px solid var(--border); color: var(--text); border-radius: 0.5rem; }
+.divider { border-color: var(--border); }
+.icon-accent { color: var(--icon); }
 
 

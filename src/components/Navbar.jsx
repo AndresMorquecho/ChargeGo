@@ -22,12 +22,12 @@ export default function Navbar() {
   }
 
   return (
-    <header className="h-14 bg-white border-b border-gray-200 flex items-center justify-between px-4">
+    <header className="h-14 flex items-center justify-between px-4" style={{background:'#FFFFFF', borderBottom:'1px solid var(--border)'}}>
       <div className="md:hidden font-semibold">ChargeGO</div>
       <div className="relative" ref={ref}>
         <button
           onClick={() => setOpen((o) => !o)}
-          className="flex items-center gap-2 px-3 py-1.5 rounded-md bg-gray-100 text-gray-700 hover:bg-gray-200 text-sm"
+          className="flex items-center gap-2 px-3 py-1.5 rounded-md text-sm btn-primary"
         >
           <span className="inline-flex items-center justify-center h-6 w-6 rounded-full bg-blue-600 text-white text-xs">
             {(user?.name || 'A')[0]}

@@ -97,7 +97,7 @@ export default function Dashboard() {
         <Card title="Ingresos del mes">
           <div className="flex items-end justify-between">
             <div>
-              <div className="text-3xl font-semibold">$ {mesActual.ingresos.toLocaleString()}</div>
+          <div className="text-3xl font-semibold">$ {mesActual.ingresos.toLocaleString()}</div>
               <div className={`text-sm ${tendenciaColor}`}>{tendenciaIcono} {Math.abs(variacionIngresos).toFixed(1)}% vs mes pasado</div>
             </div>
           </div>
@@ -112,10 +112,10 @@ export default function Dashboard() {
       <Card>
         <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
           <div className="flex items-center gap-2">
-            <button className={`px-3 py-1.5 rounded-md border ${preset==='dia'?'bg-blue-600 text-white border-blue-600':'bg-white'}`} onClick={() => { setPreset('dia'); setDesde(''); setHasta('') }}>Día</button>
-            <button className={`px-3 py-1.5 rounded-md border ${preset==='semana'?'bg-blue-600 text-white border-blue-600':'bg-white'}`} onClick={() => { setPreset('semana'); setDesde(''); setHasta('') }}>Semana</button>
-            <button className={`px-3 py-1.5 rounded-md border ${preset==='mes'?'bg-blue-600 text-white border-blue-600':'bg-white'}`} onClick={() => { setPreset('mes'); setDesde(''); setHasta('') }}>Mes</button>
-            <button className={`px-3 py-1.5 rounded-md border ${preset==='anio'?'bg-blue-600 text-white border-blue-600':'bg-white'}`} onClick={() => { setPreset('anio'); setDesde(''); setHasta('') }}>Año</button>
+            <button className={`px-3 py-1.5 rounded-md border ${preset==='dia'?"bg-[var(--btn)] text-[var(--btn-text)] border-[var(--btn)] hover:bg-[var(--hover)]":"bg-white border-[var(--border)] hover:bg-gray-50"}`} onClick={() => { setPreset('dia'); setDesde(''); setHasta('') }}>Día</button>
+            <button className={`px-3 py-1.5 rounded-md border ${preset==='semana'?"bg-[var(--btn)] text-[var(--btn-text)] border-[var(--btn)] hover:bg-[var(--hover)]":"bg-white border-[var(--border)] hover:bg-gray-50"}`} onClick={() => { setPreset('semana'); setDesde(''); setHasta('') }}>Semana</button>
+            <button className={`px-3 py-1.5 rounded-md border ${preset==='mes'?"bg-[var(--btn)] text-[var(--btn-text)] border-[var(--btn)] hover:bg-[var(--hover)]":"bg-white border-[var(--border)] hover:bg-gray-50"}`} onClick={() => { setPreset('mes'); setDesde(''); setHasta('') }}>Mes</button>
+            <button className={`px-3 py-1.5 rounded-md border ${preset==='anio'?"bg-[var(--btn)] text-[var(--btn-text)] border-[var(--btn)] hover:bg-[var(--hover)]":"bg-white border-[var(--border)] hover:bg-gray-50"}`} onClick={() => { setPreset('anio'); setDesde(''); setHasta('') }}>Año</button>
           </div>
           <div className="flex items-center gap-2">
             <div>
@@ -168,7 +168,7 @@ export default function Dashboard() {
                   <XAxis type="number" />
                   <YAxis type="category" dataKey="estacion" width={160} />
                   <Tooltip />
-                  <Bar dataKey="rentas" fill="#2563eb" />
+                  <Bar dataKey="rentas" fill="#B7D516" />
                 </BarChart>
               </ResponsiveContainer>
             </div>

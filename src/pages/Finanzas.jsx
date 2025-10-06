@@ -5,6 +5,9 @@ import { finanzas, transacciones, estacionesNombres } from '../data/mockData.js'
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, LineChart, Line, PieChart, Pie, Cell } from 'recharts'
 
 export default function Finanzas() {
+  // Orden fijo de estaciones corporativas para gráficos
+  const stationOrder = ['Malecón 2000', 'Quicentro Sur', 'Mall del Sol', 'Parque Samanes']
+
   // Filtros
   const [preset, setPreset] = useState('mes')
   const [desde, setDesde] = useState('')
@@ -51,12 +54,18 @@ export default function Finanzas() {
 
   // Series para gráficos
   const ingresosPorEstacion = useMemo(() => {
-    const map = new Map()
+    // Inicializar todas las estaciones con 0 para que siempre aparezcan
+    const sums = new Map(stationOrder.map((n) => [n, 0]))
+    const addIfInOrder = (name, monto) => {
+      if (!name) return
+      const key = String(name)
+      if (sums.has(key)) sums.set(key, (sums.get(key) || 0) + (monto || 0))
+    }
     filteredTx.forEach((t) => {
-      const key = t.estacionFin || t.estacionInicio || 'N/A'
-      map.set(key, (map.get(key) || 0) + t.monto)
+      addIfInOrder(t.estacionInicio, t.monto)
+      addIfInOrder(t.estacionFin, t.monto)
     })
-    return Array.from(map.entries()).map(([estacion, monto]) => ({ estacion, monto }))
+    return stationOrder.map((estacion) => ({ estacion, monto: sums.get(estacion) || 0 }))
   }, [filteredTx])
 
   const ingresosPorDia = useMemo(() => {
@@ -89,21 +98,29 @@ export default function Finanzas() {
   ], [])
 
   const dataResumen = useMemo(() => {
-    const byStation = new Map()
-    filteredTx.forEach((t)=>{
-      const st = t.estacionFin || t.estacionInicio || 'N/A'
-      const cur = byStation.get(st) || { ingresos:0, rentas:0 }
-      cur.ingresos += t.monto
+    const byStation = new Map(stationOrder.map((n) => [n, { ingresos:0, rentas:0 }]))
+    const bump = (name, t) => {
+      const key = stationOrder.includes(name) ? name : null
+      if (!key) return
+      const cur = byStation.get(key) || { ingresos:0, rentas:0 }
+      cur.ingresos += t.monto || 0
       if (t.tipo === 'renta_finalizada' || t.tipo==='renta_activa') cur.rentas += 1
-      byStation.set(st, cur)
+      byStation.set(key, cur)
+    }
+    filteredTx.forEach((t)=>{
+      if (t.estacionInicio) bump(t.estacionInicio, t)
+      if (t.estacionFin) bump(t.estacionFin, t)
     })
-    return Array.from(byStation.entries()).map(([estacion, v]) => ({
-      estacion,
-      ingresos: v.ingresos,
-      rentas: v.rentas,
-      promedio: v.rentas ? v.ingresos / v.rentas : 0,
-      porcentaje: ingresosTotales ? (v.ingresos / ingresosTotales) * 100 : 0,
-    }))
+    return stationOrder.map((estacion) => {
+      const v = byStation.get(estacion) || { ingresos:0, rentas:0 }
+      return {
+        estacion,
+        ingresos: v.ingresos,
+        rentas: v.rentas,
+        promedio: v.rentas ? v.ingresos / v.rentas : 0,
+        porcentaje: ingresosTotales ? (v.ingresos / ingresosTotales) * 100 : 0,
+      }
+    })
   }, [filteredTx, ingresosTotales])
 
   
@@ -133,10 +150,10 @@ export default function Finanzas() {
       <Card>
         <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
           <div className="flex items-center gap-2">
-            <button className={`px-3 py-1.5 rounded-md border ${preset==='dia'?'bg-blue-600 text-white border-blue-600':'bg-white'}`} onClick={() => { setPreset('dia'); setDesde(''); setHasta('') }}>Día</button>
-            <button className={`px-3 py-1.5 rounded-md border ${preset==='semana'?'bg-blue-600 text-white border-blue-600':'bg-white'}`} onClick={() => { setPreset('semana'); setDesde(''); setHasta('') }}>Semana</button>
-            <button className={`px-3 py-1.5 rounded-md border ${preset==='mes'?'bg-blue-600 text-white border-blue-600':'bg-white'}`} onClick={() => { setPreset('mes'); setDesde(''); setHasta('') }}>Mes</button>
-            <button className={`px-3 py-1.5 rounded-md border ${preset==='anio'?'bg-blue-600 text-white border-blue-600':'bg-white'}`} onClick={() => { setPreset('anio'); setDesde(''); setHasta('') }}>Año</button>
+            <button className={`px-3 py-1.5 rounded-md border ${preset==='dia'?"bg-[var(--btn)] text-[var(--btn-text)] border-[var(--btn)] hover:bg-[var(--hover)]":"bg-white border-[var(--border)] hover:bg-gray-50"}`} onClick={() => { setPreset('dia'); setDesde(''); setHasta('') }}>Día</button>
+            <button className={`px-3 py-1.5 rounded-md border ${preset==='semana'?"bg-[var(--btn)] text-[var(--btn-text)] border-[var(--btn)] hover:bg-[var(--hover)]":"bg-white border-[var(--border)] hover:bg-gray-50"}`} onClick={() => { setPreset('semana'); setDesde(''); setHasta('') }}>Semana</button>
+            <button className={`px-3 py-1.5 rounded-md border ${preset==='mes'?"bg-[var(--btn)] text-[var(--btn-text)] border-[var(--btn)] hover:bg-[var(--hover)]":"bg-white border-[var(--border)] hover:bg-gray-50"}`} onClick={() => { setPreset('mes'); setDesde(''); setHasta('') }}>Mes</button>
+            <button className={`px-3 py-1.5 rounded-md border ${preset==='anio'?"bg-[var(--btn)] text-[var(--btn-text)] border-[var(--btn)] hover:bg-[var(--hover)]":"bg-white border-[var(--border)] hover:bg-gray-50"}`} onClick={() => { setPreset('anio'); setDesde(''); setHasta('') }}>Año</button>
           </div>
           <div className="flex items-center gap-2 flex-wrap">
             <div>
@@ -168,7 +185,7 @@ export default function Finanzas() {
               <label className="block text-xs text-gray-500">Usuario</label>
               <input placeholder="Buscar usuario" value={usuario} onChange={(e)=>setUsuario(e.target.value)} className="border rounded-md px-2 py-1" />
             </div>
-            <button onClick={exportCSV} className="px-3 py-1.5 rounded-md bg-gray-900 text-white">Exportar CSV</button>
+            <button onClick={exportCSV} className="px-3 py-1.5 rounded-md btn-primary">Exportar CSV</button>
           </div>
         </div>
       </Card>
@@ -190,13 +207,13 @@ export default function Finanzas() {
         <Card title="Ingresos por estación">
           <div className="h-80">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={ingresosPorEstacion}>
+              <BarChart data={ingresosPorEstacion} margin={{ bottom: 28, left: 8, right: 8, top: 8 }}>
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="estacion" />
+                <XAxis dataKey="estacion" interval={0} tickMargin={12} tick={(props) => <StationTick {...props} />} />
                 <YAxis />
                 <Tooltip />
                 <Legend />
-                <Bar dataKey="monto" name="Ingresos" fill="#22c55e" />
+                <Bar dataKey="monto" name="Ingresos" fill="#B7D516" />
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -240,6 +257,23 @@ export default function Finanzas() {
 
       
     </div>
+  )
+}
+
+// Tick personalizado para nombres en dos líneas
+function StationTick({ x, y, payload }) {
+  const text = String(payload.value)
+  const parts = text.split(' ')
+  const mid = Math.ceil(parts.length / 2)
+  const line1 = parts.slice(0, mid).join(' ')
+  const line2 = parts.slice(mid).join(' ')
+  return (
+    <g transform={`translate(${x},${y})`}>
+      <text dy={12} textAnchor="middle" fill="#111827" fontSize={12}>
+        <tspan x={0} dy={0}>{line1}</tspan>
+        {line2 && <tspan x={0} dy={12}>{line2}</tspan>}
+      </text>
+    </g>
   )
 }
 

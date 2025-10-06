@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import logo from '../imagen/Logo.jpg'
 
 export default function Login() {
   const navigate = useNavigate()
@@ -26,29 +27,32 @@ export default function Login() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
-      <div className="w-full max-w-sm bg-white border border-gray-200 rounded-xl shadow-sm p-6">
+      <div className="w-full max-w-sm card p-6">
         <div className="mb-6 text-center">
+          <div className="mx-auto h-16 w-16 rounded-full bg-white flex items-center justify-center mb-3 overflow-hidden">
+            <img src={logo} alt="ChargeGO" className="h-12 w-12 object-cover" />
+          </div>
           <div className="text-2xl font-semibold">ChargeGO Admin</div>
-          <div className="text-gray-500 text-sm">Acceso a panel de administración</div>
+          <div className="opacity-80 text-sm">Acceso a panel de administración</div>
         </div>
         <form onSubmit={onSubmit} className="space-y-4">
           <div>
-            <label className="block text-sm text-gray-700 mb-1">Usuario</label>
+            <label className="block text-sm mb-1">Usuario o correo electrónico</label>
             <input
               autoFocus
               value={usuario}
               onChange={(e)=>setUsuario(e.target.value)}
-              className="w-full border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600"
+              className="w-full input px-3 py-2 focus:outline-none"
               placeholder="Ingresa tu usuario"
             />
           </div>
           <div>
-            <label className="block text-sm text-gray-700 mb-1">Contraseña</label>
+            <label className="block text-sm mb-1">Contraseña</label>
             <input
               type="password"
               value={contrasena}
               onChange={(e)=>setContrasena(e.target.value)}
-              className="w-full border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600"
+              className="w-full input px-3 py-2 focus:outline-none"
               placeholder="••••••"
             />
           </div>
@@ -58,12 +62,12 @@ export default function Login() {
           <button
             disabled={loading}
             type="submit"
-            className="w-full px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-60"
+            className="w-full px-4 py-2 btn-primary disabled:opacity-60"
           >
-            {loading ? 'Ingresando…' : 'Ingresar'}
+            {loading ? 'Ingresando…' : 'Iniciar sesión'}
           </button>
         </form>
-        <div className="mt-4 text-xs text-gray-500 text-center">
+        <div className="mt-4 text-xs opacity-80 text-center">
           Usuario de prueba: <span className="font-medium">admin</span> / Contraseña: <span className="font-medium">123</span>
         </div>
       </div>

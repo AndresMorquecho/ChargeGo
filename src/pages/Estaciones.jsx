@@ -93,7 +93,7 @@ export default function Estaciones() {
       {
         key: 'acciones', header: 'Acciones', render: (_, row) => (
           <div className="flex items-center gap-2">
-            <button className="px-2 py-1 text-sm rounded-md border hover:bg-gray-50" onClick={() => onEdit(row)}>Editar</button>
+            <button className="px-2 py-1 text-sm rounded-md btn-primary" onClick={() => onEdit(row)}>Editar</button>
             <button className="px-2 py-1 text-sm rounded-md border border-red-300 text-red-700 hover:bg-red-50" onClick={() => onDelete(row)}>Eliminar</button>
             <VerDetalle row={row} />
           </div>
@@ -107,13 +107,13 @@ export default function Estaciones() {
       <div className="flex items-center justify-between gap-3 flex-wrap">
         <h1 className="text-2xl font-semibold">Estaciones</h1>
         <div className="flex items-center gap-2">
-          <input placeholder="Buscar por nombre o localidad" value={query} onChange={(e)=>setQuery(e.target.value)} className="border rounded-md px-3 py-2" />
+          <input placeholder="Buscar por nombre o localidad" value={query} onChange={(e)=>setQuery(e.target.value)} className="border rounded-md px-3 py-2 min-w-64" />
           <select value={estadoFilter} onChange={(e)=>setEstadoFilter(e.target.value)} className="border rounded-md px-3 py-2">
             <option>Todos</option>
             <option value="activo">activo</option>
             <option value="inactivo">inactivo</option>
           </select>
-          <button className="px-3 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700" onClick={onCreate}>+ Nueva Estación</button>
+          <button className="px-3 py-2 rounded-md btn-primary" onClick={onCreate}>+ Nueva Estación</button>
         </div>
       </div>
 
@@ -180,7 +180,7 @@ function EstacionForm({ initial, onSave }) {
         <label htmlFor="offline" className="text-sm text-gray-700">Marcar como offline</label>
       </div>
       <div className="md:col-span-2 flex gap-3">
-        <button type="submit" className="px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700">Guardar</button>
+        <button type="submit" className="px-4 py-2 rounded-md btn-primary">Guardar</button>
         <button type="button" className="px-4 py-2 rounded-md bg-gray-100 text-gray-700 hover:bg-gray-200" onClick={()=>onSave(initial)}>Cancelar</button>
       </div>
     </form>
