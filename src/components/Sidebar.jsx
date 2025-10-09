@@ -34,6 +34,7 @@ export default function Sidebar({ onClose }) {
         <NavLink to="/rentas" className={navItemClass} onClick={onClose}>Rentas</NavLink>
         <NavLink to="/usuarios" className={navItemClass} onClick={onClose}>Usuarios</NavLink>
         <NavLink to="/finanzas" className={navItemClass} onClick={onClose}>Finanzas</NavLink>
+        <NavLink to="/promociones" className={navItemClass} onClick={onClose}>Promociones</NavLink>
       </nav>
     </aside>
   )

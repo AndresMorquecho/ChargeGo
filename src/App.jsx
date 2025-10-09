@@ -6,6 +6,7 @@ import Rentas from './pages/Rentas.jsx'
 import Usuarios from './pages/Usuarios.jsx'
 import Finanzas from './pages/Finanzas.jsx'
 import Login from './pages/Login.jsx'
+import Promociones from './pages/Promociones.jsx'
 
 export default function App() {
   return (
@@ -18,6 +19,7 @@ export default function App() {
         <Route path="/rentas" element={<Rentas />} />
         <Route path="/usuarios" element={<Usuarios />} />
         <Route path="/finanzas" element={<Finanzas />} />
+        <Route path="/promociones" element={<Promociones />} />
       </Route>
     </Routes>
   )
